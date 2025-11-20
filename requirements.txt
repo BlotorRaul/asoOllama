@@ -1,0 +1,19 @@
+# Dependințe pentru proiectul System Administrator Agent
+
+# Framework pentru agenți AI
+google-adk
+litellm
+
+# FastMCP pentru server MCP
+fastmcp
+
+# Utilități sistem
+psutil
+
+# Server web
+uvicorn
+fastapi
+
+# Async
+aiohttp
+httpx

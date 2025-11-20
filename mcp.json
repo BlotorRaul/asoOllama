@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "aso-test-folder": {
+      "command": "C:\\Raul\\So\\PythonProject1\\.venv\\Scripts\\python.exe",
+      "args": [
+        "C:\\Raul\\So\\PythonProject1\\server.py"
+      ]
+    }
+  }
+}

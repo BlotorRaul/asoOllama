@@ -1,3 +1,4 @@
+import os
 import logging
 from fastmcp import FastMCP
 from pathlib import Path
@@ -7,8 +8,9 @@ logging.basicConfig(level=logging.INFO)
 
 mcp = FastMCP("ASO Test Folder MCP")
 
-BASE_DIR = Path(__file__).resolve().parent / "Test"
-BASE_DIR.mkdir(exist_ok=True)
+# Configurare prin variabile de mediu (pentru Docker) cu default pentru local
+BASE_DIR = Path(os.getenv("MCP_BASE_DIR", str(Path(__file__).resolve().parent / "Test")))
+BASE_DIR.mkdir(parents=True, exist_ok=True)
 
 @mcp.tool()
 def list_directory(dir_path: str = ".") -> list[str]:
@@ -37,6 +39,10 @@ def get_file_content(file_path: str) -> str:
         return f"Eroare: {e}"
 
 if __name__ == "__main__":
-
+    # Configurare port și host prin variabile de mediu
+    PORT = int(os.getenv("MCP_PORT", "8001"))
+    HOST = os.getenv("MCP_HOST", "0.0.0.0")
+    
     logging.info(f"Server started in folder: {BASE_DIR}")
-    mcp.run(transport="streamable-http", port=8001, host="0.0.0.0")
+    logging.info(f"Server listening on {HOST}:{PORT}")
+    mcp.run(transport="streamable-http", port=PORT, host=HOST)

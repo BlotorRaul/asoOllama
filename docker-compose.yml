@@ -1,0 +1,82 @@
+services:
+  # Serviciul Ollama cu modelul llama3.2:1b
+  ollama:
+    build:
+      context: .
+      dockerfile: Dockerfile.ollama
+    container_name: ollama-container
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - agent-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Serviciul MCP Server
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    container_name: mcp-server-container
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./gggg/Test:/app/data
+    environment:
+      - MCP_PORT=8001
+      - MCP_HOST=0.0.0.0
+      - MCP_BASE_DIR=/app/data
+    networks:
+      - agent-network
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/mcp"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Serviciul ADK-Web cu agentul
+  adk-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.adk
+    container_name: adk-web-container
+    ports:
+      - "8000:8000"
+    environment:
+      - MCP_SERVER_URL=http://mcp-server:8001/mcp
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama3.2:1b
+    networks:
+      - agent-network
+    restart: unless-stopped
+    depends_on:
+      - ollama
+      - mcp-server
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+# Rețeaua Docker pentru comunicare între containere
+networks:
+  agent-network:
+    driver: bridge
+
+# Volume-uri pentru date persistente
+volumes:
+  ollama-data:
+    driver: local
+

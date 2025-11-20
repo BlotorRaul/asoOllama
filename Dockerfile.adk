@@ -1,0 +1,32 @@
+# Dockerfile pentru ADK-Web cu agentul
+FROM python:3.11-slim
+
+# Setăm directorul de lucru
+WORKDIR /app
+
+# Instalăm dependențele sistem (inclusiv curl pentru healthcheck)
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiem requirements.txt și instalăm dependențele Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiem structura de agenți
+COPY agents /app/agents
+
+# Copiem modulul gggg pentru run_web.py
+COPY gggg /app/gggg
+
+# Variabile de mediu
+ENV MCP_SERVER_URL=http://mcp-server:8001/mcp
+ENV OLLAMA_BASE_URL=http://ollama:11434
+ENV OLLAMA_MODEL=llama3.2:1b
+
+# Expunem portul pentru adk-web (default 8000)
+EXPOSE 8000
+
+# Comanda de pornire - folosim run_web.py
+CMD ["python", "-m", "gggg.run_web"]
+

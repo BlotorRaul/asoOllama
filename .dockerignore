@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.docx
+*.md
+documentatie.*
+
+# Test files (nu copiem în container, folosim volume)
+gggg/Test/*
+
+# Docker files (nu copiem în imagini, dar permitem docker/ollama-init.sh)
+Dockerfile*
+docker-compose.yml
+.dockerignore
+# Excludem doar fișierele din docker/, dar nu directorul complet
+# docker/ollama-init.sh este necesar pentru Dockerfile.ollama
+
+# Cache
+*.cache
+.pytest_cache/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+

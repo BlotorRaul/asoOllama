@@ -1,4 +1,12 @@
 import os
+import sys
+from pathlib import Path
+
+# Adaugă directorul root al proiectului la path
+project_root = Path(__file__).resolve().parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
 from google.adk.agents import LlmAgent
 from google.adk.models.lite_llm import LiteLlm
 from google.adk.tools.mcp_tool import McpToolset, StreamableHTTPConnectionParams
@@ -33,3 +41,4 @@ root_agent = LlmAgent(
     ),
     tools=[toolset],
 )
+

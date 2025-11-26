@@ -29,23 +29,23 @@ def list_directory(dir_path: str = ".") -> list[str]:
         logger.info(f"=== list_directory CALLED with: '{dir_path}' ===")
         print(f"=== list_directory CALLED with: '{dir_path}' ===", flush=True)
         
-        # Normalizează path-ul: gestionează path-uri absolute care încep cu /app/
+        # Normalizeaza path-ul: gestioneaza path-uri absolute care incep cu /app/
         if dir_path.startswith("/app/"):
-            # Elimină /app/ și normalizează
-            dir_path = dir_path[5:]  # Elimină "/app/"
+            # Elimina /app/ si normalizeaza
+            dir_path = dir_path[5:]  # Elimina "/app/"
             logger.info(f"  After removing /app/: '{dir_path}'")
             print(f"  After removing /app/: '{dir_path}'", flush=True)
-            # Dacă este "Test" sau "data" sau gol, înseamnă root folder
+            # Dacă este "Test" sau "data" sau gol, inseamna root folder
             if dir_path.lower().rstrip("/") in ["test", "data", ""]:
                 dir_path = "."
                 logger.info(f"  Normalized to root: '{dir_path}'")
                 print(f"  Normalized to root: '{dir_path}'", flush=True)
         elif dir_path.startswith("/"):
-            dir_path = dir_path[1:]  # Elimină "/" de la început
+            dir_path = dir_path[1:]  # Elimina "/" de la inceput
             logger.info(f"  After removing leading /: '{dir_path}'")
             print(f"  After removing leading /: '{dir_path}'", flush=True)
         
-        # Dacă path-ul este "Test" sau "Test/", înseamnă că vrea folderul root (BASE_DIR)
+        # Daca path-ul este "Test" sau "Test/", inseamna ca vrea folderul root (BASE_DIR)
         if dir_path.lower().rstrip("/") in ["test", ""]:
             dir_path = "."
             logger.info(f"  Normalized 'Test' to root: '{dir_path}'")
@@ -61,7 +61,7 @@ def list_directory(dir_path: str = ".") -> list[str]:
         print(f"  Final normalized path: '{dir_path}'", flush=True)
         print(f"  BASE_DIR: {BASE_DIR.resolve()}", flush=True)
         
-        # Construiește path-ul relativ la BASE_DIR
+        # Construieste path-ul relativ la BASE_DIR
         path = BASE_DIR / dir_path
         path_resolved = path.resolve()
         logger.info(f"  Constructed path: {path}")
@@ -71,7 +71,7 @@ def list_directory(dir_path: str = ".") -> list[str]:
         print(f"  Resolved path: {path_resolved}", flush=True)
         print(f"  Path exists: {path_resolved.exists()}", flush=True)
         
-        # Verifică că path-ul este în interiorul BASE_DIR (prevenire path traversal)
+        # Verifica ca path-ul este in interiorul BASE_DIR (prevenire path traversal)
         try:
             path_resolved.relative_to(BASE_DIR.resolve())
             logger.info(f"  Path is within BASE_DIR: OK")
@@ -106,48 +106,48 @@ def get_file_content(file_path: str) -> str:
     """Get the content of a file. Use relative paths like "readme.txt" or "ana/info.txt"."""
     try:
         original_path = file_path
-        # Normalizează path-ul: gestionează path-uri absolute care încep cu /app/
+        # Normalizeaza path-ul: gestioneaza path-uri absolute care incep cu /app/
         if file_path.startswith("/app/"):
-            # Elimină /app/ și normalizează
-            file_path = file_path[5:]  # Elimină "/app/"
-            # Dacă începe cu "Test/" sau "data/", elimină prefixul
+            # Elimina /app/ si normalizeaza
+            file_path = file_path[5:]  # Elimina "/app/"
+            # Daca incepe cu "Test/" sau "data/", elimina prefixul
             if file_path.startswith("Test/"):
-                file_path = file_path[5:]  # Elimină "Test/"
+                file_path = file_path[5:]  # Elimina "Test/"
             elif file_path.startswith("data/"):
-                file_path = file_path[5:]  # Elimină "data/"
+                file_path = file_path[5:]  # Elimina "data/"
         elif file_path.startswith("/"):
-            file_path = file_path[1:]  # Elimină "/" de la început
+            file_path = file_path[1:]  # Elimina "/" de la inceput
         
         if file_path.startswith(".."):
             return f"Eroare: path-ul {file_path} nu este permis (path traversal)."
         
         logging.info(f"get_file_content: original='{original_path}' -> normalized='{file_path}'")
         
-        # Construiește path-ul relativ la BASE_DIR
+        # Construieste path-ul relativ la BASE_DIR
         path = BASE_DIR / file_path
-        # Resolve doar pentru a normaliza, dar verifică că rămâne în BASE_DIR
+        # Resolve doar pentru a normaliza, dar verifica ca ramane in BASE_DIR
         path = path.resolve()
         
-        # Verifică că path-ul este în interiorul BASE_DIR (prevenire path traversal)
+        # Verifica ca path-ul este in interiorul BASE_DIR (prevenire path traversal)
         try:
             path.relative_to(BASE_DIR.resolve())
         except ValueError:
             return f"Eroare: path-ul {file_path} nu este permis (path traversal)."
         
         if not path.exists():
-            return f"Eroare: fișierul {file_path} nu există."
+            return f"Eroare: fisierul {file_path} nu exista."
         if not path.is_file():
-            return f"Eroare: {file_path} nu este un fișier."
+            return f"Eroare: {file_path} nu este un fisier."
         return path.read_text(encoding="utf-8")
     except Exception as e:
         return f"Eroare: {e}"
 
 if __name__ == "__main__":
-    # Configurare port și host prin variabile de mediu
+    # Configurare port si host prin variabile de mediu
     PORT = int(os.getenv("MCP_PORT", "8001"))
     HOST = os.getenv("MCP_HOST", "0.0.0.0")
     
-    # Verifică că BASE_DIR există și are conținut
+    # Verific ca BASE_DIR exista si are continut
     BASE_DIR_abs = BASE_DIR.resolve()
     logging.info(f"Server started in folder: {BASE_DIR_abs}")
     logging.info(f"BASE_DIR exists: {BASE_DIR_abs.exists()}")

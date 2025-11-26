@@ -1,22 +1,22 @@
 # Dockerfile pentru MCP Server
 FROM python:3.11-slim
 
-# Setăm directorul de lucru
+# Setam directorul de lucru
 WORKDIR /app
 
-# Instalăm dependențele sistem (inclusiv curl pentru healthcheck)
+# Instalam dependentele sistem (inclusiv curl pentru healthcheck)
 RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiem requirements.txt și instalăm dependențele Python
+# Copiem requirements.txt si instalam dependentele Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiem codul serverului MCP
 COPY gggg/server.py /app/server.py
 
-# Creează directorul pentru date (va fi montat ca volume în docker-compose.yml)
+# Creeaza directorul pentru date (va fi montat ca volume in docker-compose.yml)
 RUN mkdir -p /app/data
 
 # Variabile de mediu

@@ -1,13 +1,13 @@
-# Dependințe pentru proiectul System Administrator Agent
+# Dependinte pentru proiectul System Administrator Agent
 
-# Framework pentru agenți AI
+# Framework pentru agenti AI
 google-adk
 litellm
 
 # FastMCP pentru server MCP
 fastmcp
 
-# Utilități sistem
+# Utilitati sistem
 psutil
 
 # Server web

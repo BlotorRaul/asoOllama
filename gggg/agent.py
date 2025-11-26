@@ -8,7 +8,7 @@ MCP_SERVER_URL = os.getenv("MCP_SERVER_URL", "http://127.0.0.1:8001/mcp")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.2:1b")
 
-# Setare variabilă de mediu pentru LiteLLM (dacă Ollama rulează pe alt URL)
+# Setare variabila de mediu pentru LiteLLM (daca Ollama ruleaza pe alt URL)
 if OLLAMA_BASE_URL != "http://127.0.0.1:11434":
     os.environ["OLLAMA_API_BASE"] = OLLAMA_BASE_URL
 

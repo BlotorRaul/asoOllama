@@ -35,15 +35,14 @@ Thumbs.db
 *.md
 documentatie.*
 
-# Test files (nu copiem în container, folosim volume)
+# Test files (nu copiem in container, folosim volume)
 gggg/Test/*
 
-# Docker files (nu copiem în imagini, dar permitem docker/ollama-init.sh)
+# Docker files ( permitem docker/ollama-init.sh)
 Dockerfile*
 docker-compose.yml
 .dockerignore
-# Excludem doar fișierele din docker/, dar nu directorul complet
-# docker/ollama-init.sh este necesar pentru Dockerfile.ollama
+
 
 # Cache
 *.cache

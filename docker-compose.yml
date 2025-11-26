@@ -70,7 +70,7 @@ services:
       retries: 3
       start_period: 30s
 
-# Rețeaua Docker pentru comunicare între containere
+# Reteaua Docker pentru comunicare intre containere
 networks:
   agent-network:
     driver: bridge

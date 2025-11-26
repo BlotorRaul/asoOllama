@@ -1,19 +1,19 @@
 # Dockerfile pentru ADK-Web cu agentul
 FROM python:3.11-slim
 
-# Setăm directorul de lucru
+# Setam directorul de lucru
 WORKDIR /app
 
-# Instalăm dependențele sistem (inclusiv curl pentru healthcheck)
+# Instalam dependentele sistem (inclusiv curl pentru healthcheck)
 RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiem requirements.txt și instalăm dependențele Python
+# Copiem requirements.txt si instalam dependentele Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiem structura de agenți
+# Copiem structura de agenti
 COPY agents /app/agents
 
 # Copiem modulul gggg pentru run_web.py

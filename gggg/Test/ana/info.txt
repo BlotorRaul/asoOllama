@@ -1,0 +1,4 @@
+Nume: Ana
+Rol: Tester
+Proiect: System Administrator Agent
+Status: Activ

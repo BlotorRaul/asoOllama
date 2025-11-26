@@ -1,0 +1,2 @@
+Acesta este un fișier de test în folderul merge.
+Poți folosi acest fișier pentru a testa funcționalitatea get_file_content.

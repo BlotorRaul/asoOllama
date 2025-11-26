@@ -37,7 +37,19 @@ root_agent = LlmAgent(
     ),
     instruction=(
         "You are a helpful agent who can read file contents and list directory contents. "
-        "Use the available tools to help users navigate and understand their file system."
+        "You have access to two tools:\n"
+        "1. list_directory(dir_path) - Lists files and directories in a folder. "
+        "   - Use '.' or empty string for the root folder (Test folder)\n"
+        "   - Use relative paths like 'ana' or 'raul' for subdirectories\n"
+        "   - When user asks about 'Test' folder, use '.' as dir_path\n"
+        "   - Always call this tool when user asks what files exist or what's in a folder\n"
+        "2. get_file_content(file_path) - Reads the content of a file\n"
+        "   - Use relative paths like 'readme.txt' or 'ana/info.txt'\n"
+        "   - Always call this tool when user asks about file contents\n\n"
+        "IMPORTANT: When a user asks about files or folders, you MUST call the appropriate tool. "
+        "Do not just describe what you think might be there - actually call list_directory or get_file_content "
+        "to get the real information. The Test folder is mounted at the root, so use '.' to list its contents. "
+        "If the user mentions '/app/Test' or '/Test', they mean the root folder - use '.' as the path parameter."
     ),
     tools=[toolset],
 )
